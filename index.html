@@ -114,8 +114,8 @@
           
           
             
-              <a class="post-title-link" href="/2015/04/14/hello-world/">
-                Hello World
+              <a class="post-title-link" href="/2015/04/15/hexo/">
+                Hexo
               </a>
             
           
@@ -124,7 +124,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          發表於 2015-04-14
+          發表於 2015-04-15
         </span>
 
         
@@ -151,6 +151,105 @@
 <p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
 <h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 <p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+
+        
+      
+    </div>
+
+    <div class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </div>
+  </div>
+
+
+    
+      
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              <a class="post-title-link" href="/2015/04/15/ubuntu12-04-install-saltstack/">
+                ubuntu12.04 install saltstack
+              </a>
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於 2015-04-15
+        </span>
+
+        
+
+        
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="一、_环境：">一、    环境：</h2><p>ubuntu12.04</p>
+<p>服务器IP：192.168.5.61</p>
+<p>客户端IP：192.168.5.62</p>
+<p>来源：</p>
+<p><a href="http://sfzhang88.blog.51cto.com/" target="_blank" rel="external">http://sfzhang88.blog.51cto.com/</a></p>
+<p><a href="http://www.saltstack.cn/projects/cssug-kb/wiki" target="_blank" rel="external">http://www.saltstack.cn/projects/cssug-kb/wiki</a></p>
+<h2 id="二、_安装：">二、    安装：</h2><p>添加源仓库</p>
+<p>自动添加</p>
+<p>sudo apt-get install -y python-software-properties</p>
+<p>sudo add-apt-repository ppa:saltstack/salt</p>
+<p>手动添加</p>
+<p>echo deb <a href="http://ppa.launchpad.net/saltstack/salt/ubuntu" target="_blank" rel="external">http://ppa.launchpad.net/saltstack/salt/ubuntu</a> <code>lsb_release -sc</code> main | sudo tee /etc/apt/sources.list.d/saltstack.list</p>
+<p>wget -q -O- “<a href="http://keyserver.ubuntu.com:11371/pks/lookup?op=get&amp;search=0x4759FA960E27C0A6" target="_blank" rel="external">http://keyserver.ubuntu.com:11371/pks/lookup?op=get&amp;search=0x4759FA960E27C0A6</a>“ | sudo apt-key add -</p>
+<p>安装软件包</p>
+<p>sudo apt-get update</p>
+<p>服务器端安装salt-master salt-syndic</p>
+<p>sudo apt-get install -y salt-master salt-minion</p>
+<p>客户端安装salt-minion salt-syndic</p>
+<p>sudo apt-get install -y salt-minion</p>
+<h2 id="三、_配置">三、    配置</h2><p>服务端的配置：vim /etc/salt/master</p>
+<p>interface: 192.168.5.61</p>
+<p>#auto_accept: True</p>
+<p>设置监听IP及打开自动通过验证，然后启动/etc/init.d/salt-master start</p>
+<p>客户端的配置： vim /etc/salt/minion</p>
+<p>master: 192.168.1.100</p>
+<p>id: 192.168.1.101</p>
+<p>master是设置服务端的IP，id是服务端显示用的可以随意写，不过我为了好区分机器是配了本机的IP地址，然后启动：/etc/init.d/salt-minion start</p>
+<p>Saltstack master认证Minion KEY</p>
+<p>Saltstack使用公共密钥加密来保证master和minions的安全通信。安装的时候Salt自动生成这些证书，但需要在master端验证minion的证书来确认master和minion之间是授信的。</p>
+<p>#salt-key -L查看所有没有认证，通过认证，拒绝认证的证书。<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root<span class="annotation">@SaltMast</span> ~]# salt-key list</span><br><span class="line"></span><br><span class="line">Accepted <span class="string">Keys:</span></span><br><span class="line"></span><br><span class="line">Unaccepted <span class="string">Keys:</span></span><br><span class="line"></span><br><span class="line">DB2012-<span class="number">08</span>-<span class="number">001</span></span><br><span class="line"></span><br><span class="line">WEB2013-<span class="number">10</span>-<span class="number">023</span></span><br><span class="line"></span><br><span class="line">Rejected <span class="string">Keys:</span></span><br></pre></td></tr></table></figure></p>
+<p>#证书认证用命令salt-key -a id</p>
+<p>#一次性全部认证 salt-key -A</p>
+<figure class="highlight livescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root<span class="property">@SaltMast</span> ~]<span class="comment"># salt-key -a DB2012-08-001</span></span><br><span class="line"></span><br><span class="line">The following keys are going <span class="keyword">to</span> be <span class="attribute">accepted</span>:</span><br><span class="line"></span><br><span class="line">Unaccepted <span class="attribute">Keys</span>:</span><br><span class="line"></span><br><span class="line">DB2012-<span class="number">08</span>-<span class="number">001</span></span><br><span class="line"></span><br><span class="line">Proceed? [n/Y] y</span><br><span class="line"></span><br><span class="line">Key <span class="keyword">for</span> minion DB2012-<span class="number">08</span>-<span class="number">001</span> accepted.</span><br><span class="line"></span><br><span class="line">[root<span class="property">@SaltMast</span> ~]<span class="comment"># salt-key -a WEB2013-10-023</span></span><br><span class="line"></span><br><span class="line">The following keys are going <span class="keyword">to</span> be <span class="attribute">accepted</span>:</span><br><span class="line"></span><br><span class="line">Unaccepted <span class="attribute">Keys</span>:</span><br><span class="line"></span><br><span class="line">WEB2013-<span class="number">10</span>-<span class="number">023</span></span><br><span class="line"></span><br><span class="line">Proceed? [n/Y] y</span><br><span class="line"></span><br><span class="line">Key <span class="keyword">for</span> minion WEB2013-<span class="number">10</span>-<span class="number">023</span> accepted.</span><br></pre></td></tr></table></figure>
+<p>#查看认证通过的证书<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[root<span class="annotation">@SaltMast</span> ~]# salt-key list</span><br><span class="line"></span><br><span class="line">Accepted <span class="string">Keys:</span></span><br><span class="line"></span><br><span class="line">DB2012-<span class="number">08</span>-<span class="number">001</span></span><br><span class="line"></span><br><span class="line">WEB2013-<span class="number">10</span>-<span class="number">023</span></span><br><span class="line"></span><br><span class="line">Unaccepted <span class="string">Keys:</span></span><br><span class="line"></span><br><span class="line">Rejected <span class="string">Keys:</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="四、_简单试用：">四、    简单试用：</h2><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root<span class="annotation">@ubuntu</span>:~# salt-key -L</span><br><span class="line"></span><br><span class="line">Accepted <span class="string">Keys:</span></span><br><span class="line"></span><br><span class="line"><span class="number">192.168</span>.1.101</span><br><span class="line"></span><br><span class="line">Unaccepted <span class="string">Keys:</span></span><br><span class="line"></span><br><span class="line">ubuntu</span><br><span class="line"></span><br><span class="line">Rejected <span class="string">Keys:</span></span><br><span class="line"></span><br><span class="line">root<span class="annotation">@ubuntu</span>:~# salt <span class="string">'*'</span> cmd.run <span class="string">"df -lh"</span></span><br><span class="line"></span><br><span class="line"><span class="number">192.168</span>.1.101:</span><br><span class="line"></span><br><span class="line">    Filesystem            Size  Used Avail Use% Mounted on</span><br><span class="line"></span><br><span class="line">    <span class="regexp">/dev/</span>sda3             <span class="number">128</span>G  <span class="number">3.6</span>G  <span class="number">118</span>G   <span class="number">3</span>% /</span><br><span class="line"></span><br><span class="line">    none                  <span class="number">5.9</span>G  <span class="number">184</span>K  <span class="number">5.9</span>G   <span class="number">1</span>% /dev</span><br><span class="line"></span><br><span class="line">    none                  <span class="number">5.9</span>G     <span class="number">0</span>  <span class="number">5.9</span>G   <span class="number">0</span>% <span class="regexp">/dev/</span>shm</span><br><span class="line"></span><br><span class="line">    none                  <span class="number">5.9</span>G   <span class="number">56</span>K  <span class="number">5.9</span>G   <span class="number">1</span>% <span class="regexp">/var/</span>run</span><br><span class="line"></span><br><span class="line">    none                  <span class="number">5.9</span>G     <span class="number">0</span>  <span class="number">5.9</span>G   <span class="number">0</span>% <span class="regexp">/var/</span>lock</span><br><span class="line"></span><br><span class="line">    none                  <span class="number">5.9</span>G     <span class="number">0</span>  <span class="number">5.9</span>G   <span class="number">0</span>% <span class="regexp">/lib/</span>init/rw</span><br><span class="line"></span><br><span class="line">    none                  <span class="number">128</span>G  <span class="number">3.6</span>G  <span class="number">118</span>G   <span class="number">3</span>% <span class="regexp">/var/</span>lib<span class="regexp">/ureadahead/</span>debugfs</span><br><span class="line"></span><br><span class="line">    <span class="regexp">/dev/</span>sda1             <span class="number">184</span>M   <span class="number">22</span>M  <span class="number">154</span>M  <span class="number">13</span>% /boot</span><br><span class="line"></span><br><span class="line">root<span class="annotation">@ubuntu</span>:~#</span><br></pre></td></tr></table></figure>
+<p>salt-key 可以查看通过验证的机器</p>
+<p>salt是主程序，可以很方便对多台机器进行管理</p>
+<h2 id="五、_Saltstack分组及其测试">五、    Saltstack分组及其测试</h2><p>1)为什么要分组？线上WEB，DB，IMG等安装配置相同或者相近的服务器可分为一组，方便批量安装和管理，编辑 /etc/salt/master 添加如下内容，每个组可以有N多服务，每个服务器用逗号分隔。<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">\<span class="comment"># nodegroups:</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">#   group1: 'L<span class="yardoctag">@foo</span>.domain.com,bar.domain.com,baz.domain.com and bl*.domain.com'</span></span><br><span class="line"></span><br><span class="line">\<span class="comment">#   group2: 'G<span class="yardoctag">@os</span>:Debian and foo.domain.com'</span></span><br><span class="line"></span><br><span class="line"><span class="symbol">nodegroups:</span></span><br><span class="line"></span><br><span class="line">  <span class="symbol">wwwgroup:</span>  <span class="string">'L@WEB2013-10-023,DB2012-08-001'</span></span><br><span class="line"></span><br><span class="line">  <span class="symbol">dbgroup:</span>  <span class="string">'DB2012-08-001'</span></span><br></pre></td></tr></table></figure></p>
+<p>2)分组测试</p>
+<p>总结：SaltStack安装和基本的配置已经完成，可以通过SaltStack批量执行系统命令，包括重启系统，重启服务，查看系统负载，添加/删除用户等等。我已经被salt的强大功能所折服，有时间我将研究一下Salt包的定制安装，文件分发等更强大的功能。</p>
+<h2 id="六、_在线语法检查：">六、    在线语法检查：</h2><p><a href="http://yaml-online-parser.appspot.com/" target="_blank" rel="external">http://yaml-online-parser.appspot.com/</a></p>
 
         
       
@@ -201,7 +300,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-count">2</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -473,24 +572,11 @@
 
   
   
-
-  
-    
   
 
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:""};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
   
+
+
 
 
   
