@@ -2,6 +2,8 @@
 <html class="theme-next use-motion ">
 <head>
   
+    
+
 
 <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -41,13 +43,17 @@
   </script>
 
 
-  <title> aser's blog </title>
+  <title>
+  
+
+  
+     // aser's blog
+  
+</title>
 </head>
 
 <body>
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column ">
     <div class="headband"></div>
 
     <div id="header" class="header">
@@ -101,78 +107,109 @@
       <div class="main-inner">
         <div id="content" class="content">
           
+
   <div id="posts" class="posts-expand">
     
-      
+    
+      <h2 id="一、_环境：">一、    环境：</h2><p>ubuntu12.04</p>
+<p>服务器IP：192.168.5.61</p>
+<p>客户端IP：192.168.5.62</p>
+<p>来源：</p>
+<p><a href="http://sfzhang88.blog.51cto.com/" target="_blank" rel="external">http://sfzhang88.blog.51cto.com/</a></p>
+<p><a href="http://www.saltstack.cn/projects/cssug-kb/wiki" target="_blank" rel="external">http://www.saltstack.cn/projects/cssug-kb/wiki</a></p>
+<h2 id="二、_安装：">二、    安装：</h2><p>添加源仓库</p>
+<p>自动添加</p>
+<p>sudo apt-get install -y python-software-properties</p>
+<p>sudo add-apt-repository ppa:saltstack/salt</p>
+<p>手动添加</p>
+<p>echo deb <a href="http://ppa.launchpad.net/saltstack/salt/ubuntu" target="_blank" rel="external">http://ppa.launchpad.net/saltstack/salt/ubuntu</a> <code>lsb_release -sc</code> main | sudo tee /etc/apt/sources.list.d/saltstack.list</p>
+<p>wget -q -O- “<a href="http://keyserver.ubuntu.com:11371/pks/lookup?op=get&amp;search=0x4759FA960E27C0A6" target="_blank" rel="external">http://keyserver.ubuntu.com:11371/pks/lookup?op=get&amp;search=0x4759FA960E27C0A6</a>“ | sudo apt-key add -</p>
+<p>安装软件包</p>
+<p>sudo apt-get update</p>
+<p>服务器端安装salt-master salt-syndic</p>
+<p>sudo apt-get install -y salt-master salt-minion</p>
+<p>客户端安装salt-minion salt-syndic</p>
+<p>sudo apt-get install -y salt-minion</p>
+<h2 id="三、_配置">三、    配置</h2><p>服务端的配置：vim /etc/salt/master</p>
+<p>interface: 192.168.5.61</p>
+<p>#auto_accept: True</p>
+<p>设置监听IP及打开自动通过验证，然后启动/etc/init.d/salt-master start</p>
+<p>客户端的配置： vim /etc/salt/minion</p>
+<p>master: 192.168.1.100</p>
+<p>id: 192.168.1.101</p>
+<p>master是设置服务端的IP，id是服务端显示用的可以随意写，不过我为了好区分机器是配了本机的IP地址，然后启动：/etc/init.d/salt-minion start</p>
+<p>Saltstack master认证Minion KEY</p>
+<p>Saltstack使用公共密钥加密来保证master和minions的安全通信。安装的时候Salt自动生成这些证书，但需要在master端验证minion的证书来确认master和minion之间是授信的。</p>
+<p>#salt-key -L查看所有没有认证，通过认证，拒绝认证的证书。</p>
+<p>[root@SaltMast ~]# salt-key list</p>
+<p>Accepted Keys:</p>
+<p>Unaccepted Keys:</p>
+<p>DB2012-08-001</p>
+<p>WEB2013-10-023</p>
+<p>Rejected Keys:</p>
+<p>#证书认证用命令salt-key -a id</p>
+<p>#一次性全部认证 salt-key -A</p>
+<p>[root@SaltMast ~]# salt-key -a DB2012-08-001</p>
+<p>The following keys are going to be accepted:</p>
+<p>Unaccepted Keys:</p>
+<p>DB2012-08-001</p>
+<p>Proceed? [n/Y] y</p>
+<p>Key for minion DB2012-08-001 accepted.</p>
+<p>[root@SaltMast ~]# salt-key -a WEB2013-10-023</p>
+<p>The following keys are going to be accepted:</p>
+<p>Unaccepted Keys:</p>
+<p>WEB2013-10-023</p>
+<p>Proceed? [n/Y] y</p>
+<p>Key for minion WEB2013-10-023 accepted.</p>
+<p>#查看认证通过的证书</p>
+<p>[root@SaltMast ~]# salt-key list</p>
+<p>Accepted Keys:</p>
+<p>DB2012-08-001</p>
+<p>WEB2013-10-023</p>
+<p>Unaccepted Keys:</p>
+<p>Rejected Keys:</p>
+<h2 id="四、_简单试用：">四、    简单试用：</h2><p>root@ubuntu:~# salt-key -L</p>
+<p>Accepted Keys:</p>
+<p>192.168.1.101</p>
+<p>Unaccepted Keys:</p>
+<p>ubuntu</p>
+<p>Rejected Keys:</p>
+<p>root@ubuntu:~# salt ‘*’ cmd.run “df -lh”</p>
+<p>192.168.1.101:</p>
+<pre><code>Filesystem            Size  Used Avail Use<span class="subst">%</span> Mounted <span class="keyword">on</span>
 
-  <div class="post post-type-normal ">
-    <div class="post-header">
+/dev/sda3             <span class="number">128</span>G  <span class="number">3.6</span>G  <span class="number">118</span>G   <span class="number">3</span><span class="subst">%</span> <span class="subst">/</span>
 
-      
-      
-        <h1 class="post-title">
-          
-          
-            
-              <a class="post-title-link" href="/2015/04/14/hello-world/">
-                Hello World
-              </a>
-            
-          
-        </h1>
-      
+<span class="literal">none</span>                  <span class="number">5.9</span>G  <span class="number">184</span>K  <span class="number">5.9</span>G   <span class="number">1</span><span class="subst">%</span> /dev
 
-      <div class="post-meta">
-        <span class="post-time">
-          發表於 2015-04-14
-        </span>
+<span class="literal">none</span>                  <span class="number">5.9</span>G     <span class="number">0</span>  <span class="number">5.9</span>G   <span class="number">0</span><span class="subst">%</span> /dev/shm
 
-        
+<span class="literal">none</span>                  <span class="number">5.9</span>G   <span class="number">56</span>K  <span class="number">5.9</span>G   <span class="number">1</span><span class="subst">%</span> /<span class="built_in">var</span>/run
 
-        
-          
-        
-      </div>
-    </div>
+<span class="literal">none</span>                  <span class="number">5.9</span>G     <span class="number">0</span>  <span class="number">5.9</span>G   <span class="number">0</span><span class="subst">%</span> /<span class="built_in">var</span>/lock
 
-    <div class="post-body">
+<span class="literal">none</span>                  <span class="number">5.9</span>G     <span class="number">0</span>  <span class="number">5.9</span>G   <span class="number">0</span><span class="subst">%</span> /lib/init/rw
 
-      
-      
+<span class="literal">none</span>                  <span class="number">128</span>G  <span class="number">3.6</span>G  <span class="number">118</span>G   <span class="number">3</span><span class="subst">%</span> /<span class="built_in">var</span>/lib/ureadahead/debugfs
 
-      
-        
-          <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2><h3 id="Create_a_new_post">Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-        
-      
-    </div>
-
-    <div class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </div>
-  </div>
-
+/dev/sda1             <span class="number">184</span>M   <span class="number">22</span>M  <span class="number">154</span>M  <span class="number">13</span><span class="subst">%</span> /boot
+</code></pre><p>root@ubuntu:~#</p>
+<p>salt-key 可以查看通过验证的机器</p>
+<p>salt是主程序，可以很方便对多台机器进行管理</p>
+<h2 id="五、_Saltstack分组及其测试">五、    Saltstack分组及其测试</h2><p>1)为什么要分组？线上WEB，DB，IMG等安装配置相同或者相近的服务器可分为一组，方便批量安装和管理，编辑 /etc/salt/master 添加如下内容，每个组可以有N多服务，每个服务器用逗号分隔。</p>
+<p># nodegroups:</p>
+<p>#   group1: ‘L@foo.domain.com,bar.domain.com,baz.domain.com and bl*.domain.com’</p>
+<p>#   group2: ‘G@os:Debian and foo.domain.com’</p>
+<p>nodegroups:</p>
+<p>  wwwgroup:  ‘L@WEB2013-10-023,DB2012-08-001’</p>
+<p>  dbgroup:  ‘DB2012-08-001’</p>
+<p>2)分组测试</p>
+<p>总结：SaltStack安装和基本的配置已经完成，可以通过SaltStack批量执行系统命令，包括重启系统，重启服务，查看系统负载，添加/删除用户等等。我已经被salt的强大功能所折服，有时间我将研究一下Salt包的定制安装，文件分发等更强大的功能。</p>
+<h2 id="六、_在线语法检查：">六、    在线语法检查：</h2><p><a href="http://yaml-online-parser.appspot.com/" target="_blank" rel="external">http://yaml-online-parser.appspot.com/</a></p>
 
     
   </div>
 
-  
 
         </div>
       </div>
@@ -472,26 +509,6 @@
   
 
   
-  
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:""};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-
-  
-
 
   
 </body>
