@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 <channel>
   <atom:link href="http://page2rss.com/rss/c195126a6a2ad09afd3a6309f8c067f6" rel="self" type="application/rss+xml" />
-  <title>石头的点滴</title>
+#  <title>石头的点滴</title>
   <link>http://page2rss.com/c195126a6a2ad09afd3a6309f8c067f6</link>
   <description>Page2RSS Monitored Page: 石头的点滴 (http://blog.aser.me/)</description>
   <lastBuildDate>Wed, 15 Apr 2015 05:00:57 GMT</lastBuildDate>
