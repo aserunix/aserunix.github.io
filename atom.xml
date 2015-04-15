@@ -37,11 +37,11 @@
   </entry>
   
   <entry>
-    <title><![CDATA[ubuntu12.04 install saltstack]]></title>
+    <title><![CDATA[ubuntu12.04安装saltstack]]></title>
     <link href="http://blog.aser.me/2015/04/15/ubuntu12-04-install-saltstack/"/>
     <id>http://blog.aser.me/2015/04/15/ubuntu12-04-install-saltstack/</id>
     <published>2015-04-15T12:52:42.000Z</published>
-    <updated>2015-04-15T12:56:26.919Z</updated>
+    <updated>2015-04-15T13:20:50.497Z</updated>
     <content type="html"><![CDATA[<h2 id="一、_环境：">一、    环境：</h2><p>ubuntu12.04</p>
 <p>服务器IP：192.168.5.61</p>
 <p>客户端IP：192.168.5.62</p>
@@ -91,6 +91,16 @@
 <p>来源：</p>
 <p><a href="http://sfzhang88]]>
     </summary>
+    
+      <category term="linux" scheme="http://blog.aser.me/tags/linux/"/>
+    
+      <category term="ops" scheme="http://blog.aser.me/tags/ops/"/>
+    
+      <category term="saltstack" scheme="http://blog.aser.me/tags/saltstack/"/>
+    
+      <category term="ubuntu" scheme="http://blog.aser.me/tags/ubuntu/"/>
+    
+      <category term="ops" scheme="http://blog.aser.me/categories/ops/"/>
     
   </entry>
   
